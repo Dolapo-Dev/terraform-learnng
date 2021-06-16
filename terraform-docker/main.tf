@@ -30,6 +30,17 @@ resource "docker_container" "nodered_container" {
   }
 }
 
+output "ip_address1" {
+  value       = [for i in docker_container.nodered_container[*] : join(":", [i.ip_address], i.ports[*]["external"])]
+  description = "The IP address and external port of the docker container"
+}
+
+output "container_name" {
+  value       = docker_container.nodered_container[*].name
+  description = "The name of the container"
+}
+
+
 
 # resource "docker_container" "nodered_container2" {
 #   name  = join("-", ["nodered", random_string.random2.result])
@@ -41,20 +52,25 @@ resource "docker_container" "nodered_container" {
 # }
 
 
-output "ip_address1" {
-  value       = join(":", [docker_container.nodered_container[0].ip_address, docker_container.nodered_container[0].ports[0].external])
-  description = "The IP address and external port of the docker container"
-}
+# output "ip_address1" {
+#   value       = join(":", [docker_container.nodered_container[0].ip_address, docker_container.nodered_container[0].ports[0].external])
+#   description = "The IP address and external port of the docker container"
+# }
 
-output "container_name" {
-  value       = docker_container.nodered_container[*].name
-  description = "The name of the container"
-}
+# output "ip_address1" {
+#   value       = [for i in docker_container.nodered_container[*]: join(":", [i.ip_address],i.ports[*]["external"])]
+#   description = "The IP address and external port of the docker container"
+# }
 
-output "ip_address2" {
-  value       = join(":", [docker_container.nodered_container[1].ip_address, docker_container.nodered_container[1].ports[0].external])
-  description = "This is the IP address and port number of the second container"
-}
+# output "container_name" {
+#   value       = docker_container.nodered_container[*].name
+#   description = "The name of the container"
+# }
+
+# output "ip_address2" {
+#   value       = join(":", [docker_container.nodered_container[1].ip_address, docker_container.nodered_container[1].ports[0].external])
+#   description = "This is the IP address and port number of the second container"
+# }
 
 # output "container2_name" {
 #   value       = docker_container.nodered_container[1].name
